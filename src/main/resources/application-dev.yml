@@ -1,5 +1,18 @@
 server:
   port: 8080
+  servlet:
+    context-path: /api
 
-#spring:
+spring:
 #  datasource:
+  mail:
+    default-encoding: UTF-8
+    username: zhangyutongxue@163.com
+    password: UWPzMJpxa8V37Fpf     # SMTP 服务授权码
+    host: smtp.163.com             # 邮箱 SMTP 服务器地址
+    port: 465                      # TLS端口
+    properties:
+      mail:
+        smtp:
+          ssl:
+            enable: true
