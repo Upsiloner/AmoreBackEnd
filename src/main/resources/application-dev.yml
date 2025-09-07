@@ -4,7 +4,11 @@ server:
     context-path: /api
 
 spring:
-#  datasource:
+  datasource:
+    url: jdbc:mysql://localhost:3306/Amore?useSSL=false&serverTimezone=Asia/Shanghai&characterEncoding=UTF-8
+    username: root
+    password: 123456Mysql
+    driver-class-name: com.mysql.cj.jdbc.Driver
   mail:
     default-encoding: UTF-8
     username: zhangyutongxue@163.com
