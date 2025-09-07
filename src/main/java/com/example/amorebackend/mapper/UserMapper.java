@@ -1,0 +1,12 @@
+package com.example.amorebackend.mapper;
+
+import com.example.amorebackend.entity.User;
+import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+@Mapper
+public interface UserMapper {
+    User findByEmail(@Param("email") String email);
+    User findByUsername(@Param("username") String username);
+    void insert(User user);
+}

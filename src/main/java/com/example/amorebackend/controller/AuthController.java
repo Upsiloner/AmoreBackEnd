@@ -3,6 +3,8 @@ package com.example.amorebackend.controller;
 import com.example.amorebackend.util.CodeUtil;
 import com.example.amorebackend.util.CodeStore;
 import com.example.amorebackend.common.ApiResponse;
+import com.example.amorebackend.service.AuthService;
+import com.example.amorebackend.dto.Auth.RegisterDTO;
 import jakarta.annotation.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -15,9 +17,19 @@ import java.util.Map;
 @RequestMapping("/Auth")
 public class AuthController {
     @Resource
+    private AuthService authService;
+    @Resource
     private JavaMailSender mailSender;
 
     private final String fromEmail = "zhangyutongxue@163.com"; // 发件人
+
+    /**
+     * 用户注册
+     */
+    @PostMapping("/register")
+    public ApiResponse<?> register(@RequestBody RegisterDTO request) {
+        return authService.register(request);
+    }
 
     /**
      * 发送验证码

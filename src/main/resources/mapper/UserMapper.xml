@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.amorebackend.mapper.UserMapper">
+
+    <select id="findByEmail" resultType="com.example.amorebackend.entity.User">
+        SELECT * FROM user WHERE email = #{email}
+    </select>
+
+    <select id="findByUsername" resultType="com.example.amorebackend.entity.User">
+        SELECT * FROM user WHERE username = #{username}
+    </select>
+
+    <insert id="insert" parameterType="com.example.amorebackend.entity.User">
+        INSERT INTO user(uid, username, email, password, create_time)
+        VALUES(#{uid}, #{username}, #{email}, #{password}, #{createTime})
+    </insert>
+
+</mapper>

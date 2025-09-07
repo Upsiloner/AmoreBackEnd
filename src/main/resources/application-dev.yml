@@ -20,3 +20,7 @@ spring:
         smtp:
           ssl:
             enable: true
+  jpa:
+    hibernate:
+      ddl-auto: update  # 启动时根据实体更新表结构
+    show-sql: true
