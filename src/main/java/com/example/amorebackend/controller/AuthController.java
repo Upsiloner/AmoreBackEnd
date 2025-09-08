@@ -1,7 +1,7 @@
 package com.example.amorebackend.controller;
 
 import com.example.amorebackend.util.CodeUtil;
-import com.example.amorebackend.util.CodeStore;
+import com.example.amorebackend.util.TinyRedisUtil;
 import com.example.amorebackend.common.ApiResponse;
 import com.example.amorebackend.service.AuthService;
 import com.example.amorebackend.dto.Auth.RegisterDTO;
@@ -20,6 +20,8 @@ public class AuthController {
     private AuthService authService;
     @Resource
     private JavaMailSender mailSender;
+    @Resource
+    private TinyRedisUtil tinyRedis;
 
     private final String fromEmail = "zhangyutongxue@163.com"; // 发件人
 
@@ -39,7 +41,7 @@ public class AuthController {
         String code = CodeUtil.generateCode();
 
         String email = request.get("email");
-        CodeStore.saveCode(email, code, 5 * 60 * 1000);
+        tinyRedis.set("email:code:" + email, code, 60 * 5 *1000);
 
         try {
             MimeMessage mimeMessage = mailSender.createMimeMessage();
@@ -80,8 +82,8 @@ public class AuthController {
      */
     @GetMapping("/verifyCode")
     public ApiResponse<Boolean> verifyCode(@RequestParam String email, @RequestParam String code) {
-        boolean valid = CodeStore.validateCode(email, code);
-        if (valid) {
+        String storedCode = tinyRedis.get("email:code:" + email);
+        if (storedCode != null && storedCode.equals(code)) {
             return ApiResponse.success("验证码校验成功", null);
         } else {
             return ApiResponse.error(400, "验证码校验错误");
