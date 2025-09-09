@@ -1,4 +1,4 @@
-package com.example.amorebackend.dto.Auth;
+package com.amorebackend.dto.Auth;
 
 import lombok.Data;
 

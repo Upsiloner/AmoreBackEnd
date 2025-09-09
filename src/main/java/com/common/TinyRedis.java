@@ -1,4 +1,4 @@
-package com.example.amorebackend.util;
+package com.common;
 
 import org.springframework.stereotype.Component;
 
@@ -6,7 +6,7 @@ import java.util.Map;
 import java.util.concurrent.*;
 
 @Component
-public class TinyRedisUtil {
+public class TinyRedis {
 
     private static class ValueEntry {
         String value;
@@ -21,7 +21,7 @@ public class TinyRedisUtil {
     private final ConcurrentHashMap<String, ValueEntry> store = new ConcurrentHashMap<>();
     private final ScheduledExecutorService cleaner = Executors.newSingleThreadScheduledExecutor();
 
-    public TinyRedisUtil() {
+    public TinyRedis() {
         // 定期清理过期 key，每分钟一次
         cleaner.scheduleAtFixedRate(this::cleanExpired, 1, 1, TimeUnit.MINUTES);
     }

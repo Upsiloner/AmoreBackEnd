@@ -1,10 +1,10 @@
-package com.example.amorebackend.service;
+package com.amorebackend.service;
 
-import com.example.amorebackend.dto.Auth.RegisterDTO;
-import com.example.amorebackend.entity.User;
-import com.example.amorebackend.mapper.UserMapper;
-import com.example.amorebackend.common.ApiResponse;
-import com.example.amorebackend.util.TinyRedisUtil;
+import com.amorebackend.dto.Auth.RegisterDTO;
+import com.amorebackend.entity.User;
+import com.amorebackend.mapper.UserMapper;
+import com.common.ApiResponse;
+import com.common.TinyRedis;
 import org.springframework.stereotype.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
@@ -16,7 +16,7 @@ public class AuthService {
     @Resource
     private UserMapper userMapper;
     @Resource
-    private TinyRedisUtil tinyRedis;
+    private TinyRedis tinyRedis;
 
     private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 

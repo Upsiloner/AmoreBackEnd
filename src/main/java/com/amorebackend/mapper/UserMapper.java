@@ -1,6 +1,6 @@
-package com.example.amorebackend.mapper;
+package com.amorebackend.mapper;
 
-import com.example.amorebackend.entity.User;
+import com.amorebackend.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 

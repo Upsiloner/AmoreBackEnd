@@ -1,10 +1,10 @@
-package com.example.amorebackend.controller;
+package com.amorebackend.controller;
 
-import com.example.amorebackend.util.CodeUtil;
-import com.example.amorebackend.util.TinyRedisUtil;
-import com.example.amorebackend.common.ApiResponse;
-import com.example.amorebackend.service.AuthService;
-import com.example.amorebackend.dto.Auth.RegisterDTO;
+import com.util.CodeUtil;
+import com.common.TinyRedis;
+import com.common.ApiResponse;
+import com.amorebackend.service.AuthService;
+import com.amorebackend.dto.Auth.RegisterDTO;
 import jakarta.annotation.Resource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -21,7 +21,7 @@ public class AuthController {
     @Resource
     private JavaMailSender mailSender;
     @Resource
-    private TinyRedisUtil tinyRedis;
+    private TinyRedis tinyRedis;
 
     private final String fromEmail = "zhangyutongxue@163.com"; // 发件人
 

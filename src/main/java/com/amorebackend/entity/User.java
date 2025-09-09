@@ -1,4 +1,4 @@
-package com.example.amorebackend.entity;
+package com.amorebackend.entity;
 
 import jakarta.persistence.Entity;
 import lombok.Data;

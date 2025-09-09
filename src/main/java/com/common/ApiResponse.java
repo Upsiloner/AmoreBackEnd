@@ -1,4 +1,4 @@
-package com.example.amorebackend.common;
+package com.common;
 
 import lombok.Data;
 

@@ -1,7 +1,8 @@
-package com.example.amorebackend.util;
+package com.util;
 
 import java.util.Random;
 
+// 生成 6 位数随机验证码
 public class CodeUtil {
     public static String generateCode() {
         Random random = new Random();
