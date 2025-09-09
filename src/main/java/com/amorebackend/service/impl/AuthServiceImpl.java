@@ -1,12 +1,15 @@
 package com.amorebackend.service.impl;
 
 import com.amorebackend.dto.Auth.RegisterDTO;
+import com.amorebackend.dto.Auth.LoginDTO;
+import com.amorebackend.vo.Auth.LoginVO;
 import com.amorebackend.entity.User;
 import com.amorebackend.mapper.UserMapper;
 import com.amorebackend.service.AuthService;
 import com.common.ApiResponse;
 import com.common.TinyRedis;
 import com.util.CodeUtil;
+import com.util.JwtUtil;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
@@ -95,5 +98,27 @@ public class AuthServiceImpl implements AuthService {
         } else {
             return ApiResponse.error(400, "验证码校验错误");
         }
+    }
+
+    @Override
+    public ApiResponse<LoginVO> login(LoginDTO request) {
+        String email = request.getEmail();
+        String password = request.getPassword();
+
+        User user = userMapper.findByEmail(email);
+        if (user == null) {
+            return ApiResponse.error(400, "该账号不存在，请注册账号");
+        }
+
+        if (!passwordEncoder.matches(password, user.getPassword())) {
+            return ApiResponse.error(400, "密码错误");
+        }
+
+        String token = JwtUtil.generateToken(email);
+        tinyRedis.set("email:jwt:" + email, token, 30 * 60 * 1000);
+
+        LoginVO loginVO = new LoginVO(token, user.getId(), user.getUsername(), user.getEmail());
+
+        return ApiResponse.success("登录成功", loginVO);
     }
 }

@@ -3,6 +3,8 @@ package com.amorebackend.controller;
 import com.common.ApiResponse;
 import com.amorebackend.service.AuthService;
 import com.amorebackend.dto.Auth.RegisterDTO;
+import com.amorebackend.dto.Auth.LoginDTO;
+import com.amorebackend.vo.Auth.LoginVO;
 import jakarta.annotation.Resource;
 import org.springframework.web.bind.annotation.*;
 
@@ -36,5 +38,13 @@ public class AuthController {
     @GetMapping("/verifyCode")
     public ApiResponse<Boolean> verifyCode(@RequestParam String email, @RequestParam String code) {
         return authService.verifyCode(email, code);
+    }
+
+    /**
+     * 用户登录
+     */
+    @PostMapping("/login")
+    public ApiResponse<LoginVO> login(@RequestBody LoginDTO request) {
+        return authService.login(request);
     }
 }
