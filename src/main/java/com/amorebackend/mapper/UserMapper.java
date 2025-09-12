@@ -8,5 +8,7 @@ import org.apache.ibatis.annotations.Param;
 public interface UserMapper {
     User findByEmail(@Param("email") String email);
     User findByUsername(@Param("username") String username);
-    void insert(User user);
+    boolean insert(User user);
+
+    boolean updatePasswordByUsername(@Param("email") String email, @Param("password") String password);
 }

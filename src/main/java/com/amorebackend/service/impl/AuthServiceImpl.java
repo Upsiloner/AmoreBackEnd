@@ -1,6 +1,7 @@
 package com.amorebackend.service.impl;
 
 import com.amorebackend.dto.Auth.RegisterDTO;
+import com.amorebackend.dto.Auth.ForgetDTO;
 import com.amorebackend.dto.Auth.LoginDTO;
 import com.amorebackend.vo.Auth.LoginVO;
 import com.amorebackend.entity.User;
@@ -47,9 +48,27 @@ public class AuthServiceImpl implements AuthService {
         user.setUsername(request.getUsername());
         user.setEmail(request.getEmail());
         user.setPassword(passwordEncoder.encode(request.getPassword())); // 密码加密
-        userMapper.insert(user);
-
+        if (!userMapper.insert(user)) {
+            return ApiResponse.error(400, "新建用户失败");
+        }
         return ApiResponse.success("注册成功", null);
+    }
+
+    @Override
+    public ApiResponse<?> forget(ForgetDTO request) {
+        String storedCode = tinyRedis.get("email:code:" + request.getEmail());
+
+        if (storedCode == null || !storedCode.equals(request.getCode())) {
+            return ApiResponse.error(400, "验证码错误或已过期");
+        }
+        if (userMapper.findByEmail(request.getEmail()) == null) {
+            return ApiResponse.error(400, "邮箱未注册");
+        }
+        if (!userMapper.updatePasswordByUsername(request.getEmail(), passwordEncoder.encode(request.getPassword()))) {
+            return ApiResponse.error(400, "修改密码失败");
+        }
+
+        return ApiResponse.success("修改密码成功", null);
     }
 
     @Override

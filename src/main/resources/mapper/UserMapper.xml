@@ -18,4 +18,10 @@
         VALUES(#{uid}, #{username}, #{email}, #{password}, #{createTime})
     </insert>
 
+    <update id="updatePasswordByUsername" parameterType="com.amorebackend.entity.User">
+        UPDATE user
+        SET password = #{password}
+        WHERE email = #{email}
+    </update>
+
 </mapper>

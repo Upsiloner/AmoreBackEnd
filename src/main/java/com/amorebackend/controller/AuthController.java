@@ -3,6 +3,7 @@ package com.amorebackend.controller;
 import com.common.ApiResponse;
 import com.amorebackend.service.AuthService;
 import com.amorebackend.dto.Auth.RegisterDTO;
+import com.amorebackend.dto.Auth.ForgetDTO;
 import com.amorebackend.dto.Auth.LoginDTO;
 import com.amorebackend.vo.Auth.LoginVO;
 import jakarta.annotation.Resource;
@@ -22,6 +23,14 @@ public class AuthController {
     @PostMapping("/register")
     public ApiResponse<?> register(@RequestBody RegisterDTO request) {
         return authService.register(request);
+    }
+
+    /**
+     * 忘记密码
+     */
+    @PostMapping("/forget")
+    public ApiResponse<?> forget(@RequestBody ForgetDTO request) {
+        return authService.forget(request);
     }
 
     /**

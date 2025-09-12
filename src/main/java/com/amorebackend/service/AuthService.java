@@ -1,12 +1,15 @@
 package com.amorebackend.service;
 
 import com.amorebackend.dto.Auth.RegisterDTO;
+import com.amorebackend.dto.Auth.ForgetDTO;
 import com.amorebackend.dto.Auth.LoginDTO;
 import com.amorebackend.vo.Auth.LoginVO;
 import com.common.ApiResponse;
 
 public interface AuthService {
     ApiResponse<?> register(RegisterDTO request);
+
+    ApiResponse<?> forget(ForgetDTO request);
 
     ApiResponse<String> sendCode(String email);
 
