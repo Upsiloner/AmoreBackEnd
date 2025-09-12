@@ -6,11 +6,11 @@ import lombok.Data;
 public class LoginVO {
 
     private String token;
-    private Long uid;
+    private String uid;
     private String username;
     private String email;
 
-    public LoginVO(String token, Long uid, String username, String email) {
+    public LoginVO(String token, String uid, String username, String email) {
         this.token = token;
         this.uid = uid;
         this.username = username;

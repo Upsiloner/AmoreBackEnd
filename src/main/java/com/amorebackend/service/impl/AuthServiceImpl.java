@@ -117,7 +117,7 @@ public class AuthServiceImpl implements AuthService {
         String token = JwtUtil.generateToken(email);
         tinyRedis.set("email:jwt:" + email, token, 30 * 60 * 1000);
 
-        LoginVO loginVO = new LoginVO(token, user.getId(), user.getUsername(), user.getEmail());
+        LoginVO loginVO = new LoginVO(token, user.getUid(), user.getUsername(), user.getEmail());
 
         return ApiResponse.success("登录成功", loginVO);
     }
