@@ -5,7 +5,9 @@ import com.amorebackend.dto.Auth.ForgetDTO;
 import com.amorebackend.dto.Auth.LoginDTO;
 import com.amorebackend.vo.Auth.LoginVO;
 import com.amorebackend.entity.User;
+import com.amorebackend.entity.UserProfile;
 import com.amorebackend.mapper.UserMapper;
+import com.amorebackend.mapper.UserProfileMapper;
 import com.amorebackend.service.AuthService;
 import com.common.ApiResponse;
 import com.common.TinyRedis;
@@ -24,6 +26,8 @@ public class AuthServiceImpl implements AuthService {
 
     @Resource
     private UserMapper userMapper;
+    @Resource
+    private UserProfileMapper userProfileMapper;
     @Resource
     private TinyRedis tinyRedis;
     @Resource
@@ -44,13 +48,12 @@ public class AuthServiceImpl implements AuthService {
             return ApiResponse.error(400, "邮箱已注册");
         }
 
-        User user = new User();
-        user.setUsername(request.getUsername());
-        user.setEmail(request.getEmail());
-        user.setPassword(passwordEncoder.encode(request.getPassword())); // 密码加密
-        if (!userMapper.insert(user)) {
+        User user = new User(request.getUsername(), request.getEmail(), passwordEncoder.encode(request.getPassword()));
+        UserProfile userProfile = new UserProfile(user.getUid());
+        if (!userMapper.insert(user) || !userProfileMapper.insert(userProfile)) {
             return ApiResponse.error(400, "新建用户失败");
         }
+
         return ApiResponse.success("注册成功", null);
     }
 
@@ -133,8 +136,8 @@ public class AuthServiceImpl implements AuthService {
             return ApiResponse.error(400, "密码错误");
         }
 
-        String token = JwtUtil.generateToken(email);
-        tinyRedis.set("email:jwt:" + email, token, 30 * 60 * 1000);
+        String token = JwtUtil.generateToken(user.getUid());
+        tinyRedis.set("uid:jwt:" + email, token, 30 * 60 * 1000);
 
         LoginVO loginVO = new LoginVO(token, user.getUid(), user.getUsername(), user.getEmail());
 

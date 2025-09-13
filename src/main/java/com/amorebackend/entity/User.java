@@ -31,7 +31,12 @@ public class User {
     @Column(name = "create_time", nullable = false)
     private LocalDateTime createTime;
 
-    public User() {
+    public User() {}
+
+    public User(String username, String email, String password) {
+        this.username = username;
+        this.email = email;
+        this.password = password;
         this.uid = UUID.randomUUID().toString().replace("-", "").substring(0, 8);
         this.createTime = LocalDateTime.now();
     }

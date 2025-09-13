@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.amorebackend.mapper.UserProfileMapper">
+
+    <select id="findByUid" resultType="com.amorebackend.vo.UserInfo.ProfileVO">
+        SELECT u.username, u.email,
+               p.uid, p.gender, p.bio, p.points, p.avatar
+        FROM user u
+        JOIN user_profile p ON u.uid = p.uid
+        WHERE p.uid = #{uid}
+    </select>
+
+    <insert id="insert" parameterType="com.amorebackend.entity.UserProfile">
+        INSERT INTO user_profile (uid, gender, bio, points, avatar)
+        VALUES (#{uid}, #{gender}, #{bio}, #{points}, #{avatar})
+    </insert>
+
+</mapper>

@@ -8,21 +8,34 @@ import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+
+import com.common.JwtFilter;
 
 import java.util.List;
 
 @Configuration
 public class SecurityConfig {
 
+    private final JwtFilter jwtFilter;
+
+    public SecurityConfig(JwtFilter jwtFilter) {
+        this.jwtFilter = jwtFilter;
+    }
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http
                 .cors(Customizer.withDefaults()) // 开启 CORS
                 .csrf(csrf -> csrf.disable())    // 关闭 CSRF，避免 POST 报 403
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 不使用 Session
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/api/**").permitAll() // 放行 /api/** 下所有接口
-                        .anyRequest().permitAll()               // 其他请求也放行（开发阶段用）
-                );
+                        .requestMatchers("/Auth/**").permitAll() // 放行 /Auth/** 下所有接口
+                        .anyRequest().permitAll()
+                )
+                // 在 UsernamePasswordAuthenticationFilter 之前添加 JWT 拦截器
+                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class);
 
         return http.build();
     }
